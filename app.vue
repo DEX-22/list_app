@@ -91,7 +91,7 @@ async function syncData() {
 
   console.log(subs);
 }
-await syncData();
+// await syncData();
 onMounted(async () => {
   supabase = createClient(host, pass);
   await getList();
