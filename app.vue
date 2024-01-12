@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row justify-center">
     <div class="p-4 flex flex-col px-8">
-      <div class="navbar bg-base-100 text-2xl font-bold sticky">
+      <div class="sticky navbar bg-base-100 text-2xl font-bold ">
         <div class="flex-1">Camping</div>
         <div class="flex-none gap-2"></div>
       </div>
@@ -76,8 +76,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { createClient } from '@supabase/supabase-js';
 const {
   public: { host, pass },
@@ -92,7 +92,7 @@ let channel;
 
 async function getList() {
   const { data } = await supabase.from('items').select();
-  items.value = data;
+  items.value = data.toSort((a,b)=>a.name.at(0)-b.name.at(0));
 }
 async function insertItem() {
   const item = await supabase.from('items').insert({
@@ -114,7 +114,7 @@ async function deleteItem(item) {
     const val = await supabase.from('items').delete().eq('id', item.id);
     if (val.status == 204) {
       const index = items.value.findIndex((el) => el.id == item.id);
-      items.splice(index, 1);
+      items.value.splice(index, 1);
     }
   }  
 }
