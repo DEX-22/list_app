@@ -112,8 +112,9 @@ async function getList() {
   items.value = data.toSorted((a,b)=>{ 
       if(a.isSelected && !b.isSelected) return -1
       
-      if(b.isSelected) return 1
+      else if(b.isSelected) return 0
       
+      else 0
 
   });
   // map(({name,...others})=>({name:}))
