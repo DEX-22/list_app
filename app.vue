@@ -113,7 +113,7 @@ async function deleteItem(item) {
   if (isConfirmed) {
     const val = await supabase.from('items').delete().eq('id', item.id);
     if (val.status == 204) {
-      const index = items.value.findIndex((el) => el.id == item.id);
+      const index = items.value.map(({name,...others})=>({name:name.toLowerCase(),...others})).findIndex((el) => el.id == item.id);
       items.value.splice(index, 1);
     }
   }  
@@ -132,7 +132,7 @@ async function connectToInsertItemChannel() {
       'postgres_changes',
       { event: 'INSERT', schema: 'public', table: 'items' },
       (payload) => {
-        const index = items.value.findIndex((el) => el.id == payload.new.id);
+        // const index = items.value.findIndex((el) => el.id == payload.new.id);
         items.value.push(payload.new); 
         product.value = '';
       }
@@ -148,14 +148,13 @@ async function connectToUpdateItemChannel() {
       'postgres_changes',
       { event: 'UPDATE', schema: 'public', table: 'items' },
       (payload) => {
-        const index = items.value.findIndex((el) => el.id == payload.new.id);
-        items.value[index] = payload.new;
+        const index = items.value.findIndex((el) => el.id == payload.record.id);
+        Object.assign(items.value[index],payload.record);
         console.log('Change received!', payload);
       }
     )
     .subscribe();
-
-  console.log(subs);
+ 
 }
 onMounted(async () => {
   supabase = createClient(host, pass);
