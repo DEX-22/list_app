@@ -30,7 +30,11 @@
       </section>
       <section class="flex flex-row justify-center my-4">
         <ul class="menu w-96 h-7/8 rounded-box">
-          <li v-for="(item, index) in items" :key="index" :class="{' bg-secondary bg-opacity-75':item?.isNew}"  >
+          <li v-for="(item, index) in items" :key="index" :class="{' indicator  ':item?.isNew}"  >
+             
+            <span v-if="item?.isNew" class="indicator-item badge badge-primary">new</span> 
+   
+           
             <div
               class="
                 flex flex-row
@@ -40,6 +44,7 @@
                 bg-black bg-opacity-20
                 py-3
               "
+              :class="{' bg-secondary opacity-75  ':item?.isNew}"
             >
               <div class="form-control">
                 <label class="label cursor-pointer rounded-xl">
