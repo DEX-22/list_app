@@ -92,7 +92,7 @@ let channel;
 
 async function getList() {
   const { data } = await supabase.from('items').select();
-  items.value = data.toSort((a,b)=>a.name.at(0)-b.name.at(0));
+  items.value = data.toSorted((a,b)=>a.name.at(0)-b.name.at(0));
 }
 async function insertItem() {
   const item = await supabase.from('items').insert({
