@@ -31,7 +31,7 @@
                 <label class="label cursor-pointer rounded-xl">
                   <input
                     :value="item.checked"
-                    :class="{'bg-secndary bg-opacity-75':item?.isNew}"
+                    :class="{'bg-secondary bg-opacity-75':item?.isNew}"
                     :checked="item.checked"
                     @click="toggleStatusItem(item)"
                     type="checkbox"
