@@ -31,6 +31,7 @@
                 <label class="label cursor-pointer rounded-xl">
                   <input
                     :value="item.checked"
+                    :class="{'bg-secndary bg-opacity-75':item?.isNew}"
                     :checked="item.checked"
                     @click="toggleStatusItem(item)"
                     type="checkbox"
@@ -92,7 +93,7 @@ let channel;
 
 async function getList() {
   const { data } = await supabase.from('items').select();
-  items.value = data.toSorted((a,b)=>a.name.at(0)-b.name.at(0));
+  items.value = data.map(({name,...others})=>({name:name.toLowerCase(),...others})).toSorted((a,b)=>a.name.at(0)-b.name.at(0));
 }
 async function insertItem() {
   const item = await supabase.from('items').insert({
@@ -113,7 +114,7 @@ async function deleteItem(item) {
   if (isConfirmed) {
     const val = await supabase.from('items').delete().eq('id', item.id);
     if (val.status == 204) {
-      const index = items.value.map(({name,...others})=>({name:name.toLowerCase(),...others})).findIndex((el) => el.id == item.id);
+      const index = items.value.findIndex((el) => el.id == item.id);
       items.value.splice(index, 1);
     }
   }  
@@ -133,7 +134,8 @@ async function connectToInsertItemChannel() {
       { event: 'INSERT', schema: 'public', table: 'items' },
       (payload) => {
         // const index = items.value.findIndex((el) => el.id == payload.new.id);
-        items.value.push(payload.new); 
+
+        items.value.unshift({...payload.new,isNew:true}); 
         product.value = '';
       }
     )
