@@ -116,10 +116,7 @@ async function deleteItem(item) {
       const index = items.value.findIndex((el) => el.id == item.id);
       items.splice(index, 1);
     }
-  }
-
-  console.log(isConfirmed);
-  //items
+  }  
 }
 async function toggleStatusItem(item) {
   const itemChecked = await supabase
@@ -136,14 +133,12 @@ async function connectToInsertItemChannel() {
       { event: 'INSERT', schema: 'public', table: 'items' },
       (payload) => {
         const index = items.value.findIndex((el) => el.id == payload.new.id);
-        items.value.push(payload.new);
-        console.log('NEW received!', payload);
+        items.value.push(payload.new); 
         product.value = '';
       }
     )
     .subscribe();
-
-  console.log(channel);
+ 
 }
 
 async function connectToUpdateItemChannel() {
@@ -164,13 +159,12 @@ async function connectToUpdateItemChannel() {
 }
 onMounted(async () => {
   supabase = createClient(host, pass);
-  const [updateChannel, insertChannel] = await Promise.all([
+    await Promise.all([
     await connectToUpdateItemChannel(),
     await connectToInsertItemChannel(),
   ]);
   await getList();
-
-  console.log(updateChannel, insertChannel);
+ 
 });
 
 // Create a single supabase client for interacting with your database
