@@ -148,6 +148,8 @@ async function connectToUpdateItemChannel() {
       'postgres_changes',
       { event: 'UPDATE', schema: 'public', table: 'items' },
       (payload) => {
+        console.log(payload);
+        
         const index = items.value.findIndex((el) => el.id == payload.record.id);
         Object.assign(items.value[index],payload.record);
         console.log('Change received!', payload);
