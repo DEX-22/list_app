@@ -110,9 +110,9 @@ let channel;
 async function getList() {
   const { data } = await supabase.from('items').select();
   items.value = data.toSorted((a,b)=>{
-      if(a.isSelected && b.isSelected) return 0
-      if(a.isSelected && !b.isSelected) return 1
-      if(!a.isSelected && b.isSelected) return -1
+      if(a.isSelected && b.isSelected) return 1
+      if(a.isSelected && !b.isSelected) return -1
+      if(!a.isSelected && b.isSelected) return 1
       
 
   });
