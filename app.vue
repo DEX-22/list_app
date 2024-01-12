@@ -109,7 +109,8 @@ let channel;
 
 async function getList() {
   const { data } = await supabase.from('items').select();
-  items.value = data.toSorted();
+  items.value = data.toSorted((a,b)=>a.isSelected?-1:1);
+  // map(({name,...others})=>({name:}))
 }
 async function insertItem() {
   const item = await supabase.from('items').insert({
@@ -194,5 +195,9 @@ html,
 body,
 #app {
   height: 100dhv;
+}
+
+span{
+  text-transform: initial;
 }
 </style>
