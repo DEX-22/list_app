@@ -1,5 +1,8 @@
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/tailwindcss','@vite-pwa/nuxt'],
+  buildModules: [
+    'nuxt-vite'
+  ],
   ssr: false,
   runtimeConfig: {
     public: {
