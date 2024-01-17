@@ -3,6 +3,13 @@ export default defineNuxtConfig({
   buildModules: [
     'nuxt-vite'
   ],
+  pwa:{
+    name:"trips_app",
+    icons: "",
+    start_url:"",
+    display: "fullscreen" ,
+    prefer_related_applications:false
+  },
   ssr: false,
   runtimeConfig: {
     public: {

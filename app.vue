@@ -16,7 +16,7 @@
       </section>
       <section class="flex flex-row justify-center my-4">
         <ul class="menu w-96 h-7/8 rounded-box">
-          <li v-for="(item, index) in itemList" :key="index" class="" draggable>
+          <li v-for="(item, index) in itemList" :key="index">
             <div
               class="
                 flex flex-row
@@ -86,6 +86,9 @@
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 import { createClient } from '@supabase/supabase-js';
+
+useHead({ meta: { name: 'theme-color', content: 'night' } });
+
 const {
   public: { host, pass },
 } = useRuntimeConfig();
