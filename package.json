@@ -1,24 +1,20 @@
 {
   "scripts": {
-    "dev": "nr dev:preview:build",
+    "start:pwa":"nr dev:preview:build ",
+    "prepack": "nuxt-module-build prepare && nuxt-module-build build",
+    "dev": "nuxt dev",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate" 
+   
   },
   "dependencies": {
+    "@vite-pwa/nuxt": "0.4.0",
     "@nuxtjs/tailwindcss": "6",
-    "@supabase/supabase-js": "2.39.2",
-    "@vue/cli-plugin-pwa": "5.0.8",
+    "@supabase/supabase-js": "2.39.2", 
     "daisyui": "3",
     "nuxt": "3",
     "sass": "1.69.7",
-    "sweetalert2": "11.10.3",
-    "nuxt-vite": "0.3.5",
-    "vite": "5.0.11",
-    "@vite-pwa/nuxt": "0.4.0"
-  },
-  "devDependencies": {
-    "@rollup/plugin-terser":"0.4.4",
-    "@jridgewell/sourcemap-codec":"1.4.15"
+    "sweetalert2": "11.10.3" 
   }
 }

@@ -1,4 +1,5 @@
 <template>
+  <VitePwaManifest />
   <div class="flex flex-row justify-center h-screen">
     <div class="p-4 flex flex-col px-8">
       <div class="navbar bg-base-100 text-2xl font-bold sticky">
@@ -86,6 +87,7 @@
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 import { createClient } from '@supabase/supabase-js';
+
 
 useHead({ meta: { name: 'theme-color', content: 'night' } });
 
