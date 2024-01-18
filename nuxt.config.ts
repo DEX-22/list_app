@@ -6,8 +6,8 @@ export default defineNuxtConfig({
   pwa: {
     registerType: 'autoUpdate',
     manifest: {
-      name: 'Nuxt Vite PWA',
-      short_name: 'NuxtVitePWA',
+      name: 'Trip items list app',
+      short_name: 'TripItemsApp',
       theme_color: '#ffffff',
       icons: [
         {
