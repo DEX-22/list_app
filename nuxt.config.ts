@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss','@vite-pwa/nuxt'],
+  modules: ['@nuxtjs/tailwindcss','@vite-pwa/nuxt','nuxt-vue3-google-signin'],
   buildModules: [
     'nuxt-vite'
   ],
@@ -45,6 +45,9 @@ export default defineNuxtConfig({
     },
   },
   ssr: false,
+  googleSignIn: {
+    clientId: process.env.NUXT_GOOGLE_API_KEY 
+  },
   runtimeConfig: {
     public: {
       host: process.env.NUXT_API_URL || 'TEST',
