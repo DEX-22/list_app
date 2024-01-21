@@ -1,8 +1,18 @@
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss','@vite-pwa/nuxt','nuxt-vue3-google-signin'],
+  head:{
+   /*  meta: [
+      { name: 'google-signin-client_id', content: process.env.NUXT_GOOGLE_CLIENT_ID }
+    ] */
+  },
+  app:{
+  },
+  modules: ['@nuxtjs/tailwindcss','@vite-pwa/nuxt' ,'@nuxtjs/sitemap','nuxt-vue3-google-signin'],
   buildModules: [
     'nuxt-vite'
   ],
+  site:{
+    url: process.env.NUXT_BASE_URL
+  },
   pwa: {
     registerType: 'autoUpdate',
     manifest: {
@@ -46,7 +56,7 @@ export default defineNuxtConfig({
   },
   ssr: false,
   googleSignIn: {
-    clientId: process.env.NUXT_GOOGLE_API_KEY 
+    clientId: process.env.NUXT_GOOGLE_CLIENT_ID
   },
   runtimeConfig: {
     public: {

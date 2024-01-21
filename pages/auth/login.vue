@@ -13,16 +13,15 @@
             <span class="label-text">Email</span>
           </label>
           <!-- <input type="email" placeholder="email" class="input input-bordered" required /> -->
-          <GoogleSignInButton
-              @success="handleLoginSuccess"
-              @error="handleLoginError"
-            ></GoogleSignInButton>
+          <button :disabled="!isReady" @click.prevent="logGoogle">
+    Trigger One Tap Login Manually
+  </button>
         </div>
         <div class="form-control">
           <label class="label">
             <span class="label-text">Password</span>
           </label>
-          <input type="password" placeholder="password" class="input input-bordered" required />
+          <input type="password" placeholder="password" class="input input-bordered" />
           <label class="label">
             <a href="#" class="label-text-alt link link-hover">Forgot password?</a>
           </label>
@@ -36,22 +35,31 @@
 </div>
 
 </template>
-<script lang="ts" setup>
-import {   GoogleSignInButton,  type CredentialResponse} from "vue3-google-signin";
-
+<script lang="ts" setup>   
+import {
+  useTokenClient,
+  type AuthCodeFlowSuccessResponse,
+  type AuthCodeFlowErrorResponse,
+} from "vue3-google-signin"
 useSeoMeta({
-  title:"Log in"
-  
+  title:"Log in", 
 })
-
-// handle success event
-const handleLoginSuccess = (response: CredentialResponse) => {
-  const { credential } = response;
-  console.log("Access Token", credential);
+const handleOnSuccess = (response: AuthCodeFlowSuccessResponse) => {
+  console.log("Access Token: ", response);
 };
 
-// handle an error event
-const handleLoginError = () => {
-  console.error("Login failed");
+const handleOnError = (errorResponse: AuthCodeFlowErrorResponse) => {
+  console.log("Error: ", errorResponse);
 };
+
+const { isReady, login } = useTokenClient({
+  onSuccess: handleOnSuccess,
+  onError: handleOnError,
+  // other options
+});
+const logGoogle = () => {
+console.log("Google")
+  const a = login()
+  console.log(a)
+}
 </script>
