@@ -1,93 +1,33 @@
+
 <template>
-    <div class="flex flex-row justify-center h-screen">
-    <div class="p-4 flex flex-col px-8">
-      <div class="navbar bg-base-100 text-2xl font-bold sticky">
+  <NuxtLayout name="default">
+       <template #header>
+        <div class="navbar  text-2xl font-bold sticky">
         <div class="flex-1">Camping</div>
         <div class="flex-none gap-2"></div>
       </div>
-      <section class="flex flex-row justify-around max-w-96">
-        <input
-          v-model="product"
-          type="text"
-          placeholder="Type here"
-          class="input input-bordered w-full max-w-xs mx-4"
-        />
-        <button @click="insertItem" class="btn btn-primary">Agregar</button>
-      </section>
-      <section class="flex flex-row justify-center my-4">
-        <ul class="menu w-96 h-7/8 rounded-box">
-          <li v-for="(item, index) in itemList" :key="index">
-            <div
-              class="
-                flex flex-row
-                justify-between
-                align-center
-                m-2
-                bg-black bg-opacity-20
-                py-3
-              "
-            >
-              <div class="form-control">
-                <label class="label cursor-pointer rounded-xl">
-                  <input
-                    :value="item.checked"
-                    :checked="item.checked"
-                    @click="toggleStatusItem(item)"
-                    type="checkbox"
-                    class="checkbox checkbox-primary"
-                  />
-                </label>
-              </div>
-              <span class="w-40" style="text-transform: initial"
-                >{{ item.name }}
-              </span>
-
-              <div class="dropdown dropdown-left">
-                <button class="btn btn-ghost p-1" @click="openOption(item)">
-                  <svg
-                    class="swap-off fill-current"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    viewBox="0 0 512 512"
-                  >
-                    <path
-                      d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <button
-                class="btn btn-ghost p-1"
-                v-if="isPressed"
-                @click="deleteItem(item)"
-              >
-                <svg
-                  class="swap-on fill-current hover:text-red-500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  viewBox="0 0 512 512"
-                >
-                  <polygon
-                    points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49"
-                  />
-                </svg>
-              </button>
-            </div>
+      </template>  
+      <ListAddItem />
+      <section class="flex flex-row justify-center my-4 ">
+        <ul class="menu w-96 h-7/8 rounded-box flex justify-center">
+          
+          <li v-for="(item, index) in itemList" :key="index" class="flex flex-col mx-auto">
+            <ListItem :item="item" /> 
           </li>
         </ul>
-      </section>
-    </div>
-  </div>
-  <modal />
+      </section> 
+    <modal /> 
+    </NuxtLayout>
 </template>
 <script lang="ts" setup>
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
-import { createClient } from '@supabase/supabase-js'; 
+import { createClient } from '@supabase/supabase-js';
+import type { NuxtLayout } from '#build/components';
 
-
+definePageMeta({
+  layout: false,
+}) 
 const {
   public: { host, pass },
 } = useRuntimeConfig();

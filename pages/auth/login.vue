@@ -41,6 +41,9 @@ import {
   type AuthCodeFlowSuccessResponse,
   type AuthCodeFlowErrorResponse,
 } from "vue3-google-signin"
+definePageMeta({
+  layout: 'login'
+})
 useSeoMeta({
   title:"Log in", 
 })

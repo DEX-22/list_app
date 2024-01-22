@@ -1,6 +1,12 @@
 <template>
+<div>
+
   <VitePwaManifest />
-  <NuxtPage />
+  
+  <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+</div> 
 </template>
 <script lang="ts" setup>
 
