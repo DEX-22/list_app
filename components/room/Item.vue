@@ -1,5 +1,5 @@
 <template>
-    <div class="flex h-20 w-80 flex-row flex-nowrap rounded-xl border-2">
+    <div class="flex h-20 w-80 flex-row flex-nowrap rounded-xl border-2 my-2">
         <figure class="flex w-16 px-2">
             <img class="" src="https://ui-avatars.com/api/?name=Enrique+Saenz" />
         </figure>

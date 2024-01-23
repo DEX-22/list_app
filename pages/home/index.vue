@@ -1,23 +1,28 @@
 
 <template>
   <NuxtLayout name="default">
-       <template #header>
-        <div class="navbar  text-2xl font-bold sticky">
+    <template #header>
+      <div class="navbar  text-2xl font-bold sticky">
         <div class="flex-1">Camping</div>
         <div class="flex-none gap-2"></div>
       </div>
-      </template>  
-      <ListAddItem />
-      <section class="flex flex-row justify-center my-4 ">
-        <ul class="menu w-96 h-7/8 rounded-box flex justify-center">
-          
-          <li v-for="(item, index) in itemList" :key="index" class="flex flex-col mx-auto">
-            <ListItem :item="item" /> 
-          </li>
-        </ul>
-      </section> 
-    <modal /> 
-    </NuxtLayout>
+    </template>
+    <ListAddItem />
+    <section class="flex flex-row justify-center my-4 ">
+      <ul class="menu w-96 h-7/8 rounded-box flex justify-center">
+
+         <ListCategory v-for="(items, index) in itemsByCategory" :key="index" :title="`Categoria ${index+1}`">
+        
+          <template #content>
+            <ListItem  :items="items" /> 
+          </template>
+        </ListCategory>  
+
+         
+      </ul>
+    </section>
+    <modal />
+  </NuxtLayout>
 </template>
 <script lang="ts" setup>
 import Swal from 'sweetalert2/dist/sweetalert2.js';
@@ -27,7 +32,7 @@ import type { NuxtLayout } from '#build/components';
 
 definePageMeta({
   layout: false,
-}) 
+})
 const {
   public: { host, pass },
 } = useRuntimeConfig();
@@ -134,6 +139,21 @@ function openOption() {
   $refs.my_modal_1.showModal();
 }
 
+const itemsByCategory = computed(() => {
+  const group: Array<Array<Object>> = []
+  let subGroup: Array<Object> = []
+  items.value.forEach((el, index) => {
+    subGroup.push(el)
+    if(index%7 == 0 && index > 0){ 
+      group.push(subGroup)
+      subGroup = []
+    } 
+  }) 
+  console.log(group)
+
+  return group
+
+})
 // Create a single supabase client for interacting with your database
 </script>
 <style>
