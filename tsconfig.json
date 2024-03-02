@@ -2,7 +2,15 @@
     // https://nuxt.com/docs/guide/concepts/typescript
     "extends": "./.nuxt/tsconfig.json",
     "compilerOptions": {
-      "types": [  ]
+      "baseUrl": "./",
+      "paths": {
+        "@/*": ["src/*"],
+      },
+      "module": "ESNext",
+      "moduleResolution": "node",
+      "target": "ES2016",
+      "types": [ "node" ,"typescript","nuxt"]
+      
     }
   }
   

@@ -25,8 +25,7 @@
   </NuxtLayout>
 </template>
 <script lang="ts" setup>
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-import 'sweetalert2/src/sweetalert2.scss';
+import Swal from 'sweetalert2/dist/sweetalert2.js'; 
 import { createClient } from '@supabase/supabase-js';
 import type { NuxtLayout } from '#build/components';
 
