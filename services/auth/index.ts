@@ -1,11 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
-import { ICredentials, IRegister } from "../../interfaces/auth";
-
+import { type ICredentials,type IRegister } from "../../interfaces/auth"; 
 class AuthService{
     supabase
     constructor(){
-        
-        const { public: { host, pass }, } = useRuntimeConfig();
+           
+        const host = import.meta.env.VITE_API_URL
+        const pass = import.meta.env.VITE_API_PASS
 
         this.supabase = createClient(host,pass)
 
@@ -60,4 +60,4 @@ class AuthService{
     }
 }
 
-export default new AuthService
+export default AuthService 
