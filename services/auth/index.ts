@@ -1,13 +1,10 @@
-import { createClient } from '@supabase/supabase-js';
+import supa from "../supa";
 import { type ICredentials,type IRegister } from "../../interfaces/auth"; 
 class AuthService{
     supabase
     constructor(){
            
-        const host = import.meta.env.VITE_API_URL
-        const pass = import.meta.env.VITE_API_PASS
-
-        this.supabase = createClient(host,pass)
+      this.supabase = supa
 
     }
     login(credentials:ICredentials){
