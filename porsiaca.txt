@@ -1,0 +1,98 @@
+
+async function getList() {
+  const { data } = await supabase.from('items').select();
+  items.value = data;
+}
+async function insertItem() {
+  const item = await supabase.from('items').insert({
+    name: product.value,
+    checked: false,
+  }); 
+  await getList();
+}
+async function deleteItem(item) {
+  const { isConfirmed } = await Swal.fire({
+    title: 'Error!',
+    text: 'Do you want to continue',
+    icon: 'error',
+    confirmButtonText: 'Cool',
+  });
+
+  if (isConfirmed) {
+    const val = await supabase.from('items').delete().eq('id', item.id);
+    if (val.status == 204) {
+      const index = items.value.findIndex((el) => el.id == item.id);
+      items.splice(index, 1);
+    }
+  }
+ 
+  //items
+}
+async function toggleStatusItem(item) {
+  const itemChecked = await supabase
+    .from('items')
+    .update({ checked: !item.checked })
+    .eq('id', item.id);
+}
+
+async function connectToInsertItemChannel() {
+  channel = await supabase
+    .channel('items')
+    .on(
+      'postgres_changes',
+      { event: 'INSERT', schema: 'public', table: 'items' },
+      (payload) => {
+        const index = items.value.findIndex((el) => el.id == payload.new.id);
+        items.value.push(payload.new);
+        console.log('NEW received!', payload);
+        product.value = '';
+      }
+    )
+    .subscribe();
+ 
+}
+
+async function connectToUpdateItemChannel() {
+  const subs = await supabase
+    .channel('items')
+    .on(
+      'postgres_changes',
+      { event: 'UPDATE', schema: 'public', table: 'items' },
+      (payload) => {
+        const index = items.value.findIndex((el) => el.id == payload.new.id);
+        items.value[index] = payload.new;
+        console.log('Change received!', payload);
+      }
+    )
+    .subscribe();
+ 
+}
+onMounted(async () => {
+  supabase = createClient(host, pass);
+  const [updateChannel, insertChannel] = await Promise.all([
+    await connectToUpdateItemChannel(),
+    await connectToInsertItemChannel(),
+  ]);
+  await getList();
+
+  console.log(updateChannel, insertChannel);
+});
+
+function openOption() {
+  $refs.my_modal_1.showModal();
+}
+
+const itemsByCategory = computed(() => {
+  const group: Array<Array<Object>> = []
+  let subGroup: Array<Object> = []
+  items.value.forEach((el, index) => {
+    subGroup.push(el)
+    if(index%7 == 0 && index > 0){ 
+      group.push(subGroup)
+      subGroup = []
+    } 
+  })  
+
+  return group
+
+})

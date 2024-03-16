@@ -5,12 +5,14 @@ export default defineNuxtConfig({
   css:[
     'sweetalert2/src/sweetalert2.scss'
   ],
-  head:{ 
+  head:{
+    script:[ 
+    ] 
   },
   app:{
    
   },
-  modules: ['@nuxtjs/tailwindcss','@vite-pwa/nuxt' ,'@nuxtjs/sitemap','@pinia/nuxt'],
+  modules: ['nuxt-icon-tw', '@nuxtjs/tailwindcss','@vite-pwa/nuxt' ,'@nuxtjs/sitemap','@pinia/nuxt'],
   buildModules: [
     'nuxt-vite'
   ],
