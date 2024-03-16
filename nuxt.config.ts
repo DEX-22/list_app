@@ -1,6 +1,6 @@
 export default defineNuxtConfig({
   alias:{
-    "@": "/<srcDir>",
+    "@": "/src/*",
   },
   css:[
     'sweetalert2/src/sweetalert2.scss'
@@ -8,8 +8,9 @@ export default defineNuxtConfig({
   head:{ 
   },
   app:{
+   
   },
-  modules: ['@nuxtjs/tailwindcss','@vite-pwa/nuxt' ,'@nuxtjs/sitemap'],
+  modules: ['@nuxtjs/tailwindcss','@vite-pwa/nuxt' ,'@nuxtjs/sitemap','@pinia/nuxt'],
   buildModules: [
     'nuxt-vite'
   ],
@@ -58,10 +59,12 @@ export default defineNuxtConfig({
     },
   },
   ssr: false, 
-  runtimeConfig: {
+  runtimeConfig: { 
+    app:{
+
+    },
     public: {
-      host: process.env.NUXT_API_URL || 'TEST',
-      pass: process.env.NUXT_API_PASS || 'TEST',
+      
     },
   },
 });
