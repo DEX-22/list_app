@@ -95,8 +95,7 @@ async function sendInformation( ){
     if(!isValid) return
 
     const info = await AuthService.register(data.value)
-
-    console.log(info)
+ 
 }
 
 </script>

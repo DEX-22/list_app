@@ -41,6 +41,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import LoginSchema from '../../schemas/auth/login';
 import {type ICredentials} from '../../interfaces/auth'
 import AuthService from "../../services/auth/index"
+import { userStore } from '../../store/auth/user.store';
 
 definePageMeta({
   layout: 'login'
@@ -48,63 +49,68 @@ definePageMeta({
 useSeoMeta({
   title:"Log in", 
 })  
+const UserStore = userStore()
+
 const credentials: Ref<ICredentials> = ref({
   email:"",
   password:""
 }) 
 async function validate():Promise<boolean>{
-let isValid = false
-  try{
-  isValid = await LoginSchema.validate(credentials.value)
-}catch(e){
-  if(e.message.search('email must be a valid email') != -1){
-    
-    Swal.fire({ 
-      icon:"error",
-      title: "Invalid email",
-      text:"The email is incorrect, please fix it"
-    });
-  }else if(e.message.search('required field') != -1){
-    Swal.fire({ 
-      icon:"error",
-      title: "Field empty",
-      text:"Fill all fields to continue"
-    });
-  }else if(e.message.search('must be at least') != -1){
-    const msgArr = e.message.split(" ")
-    const field = msgArr.find((word,index)=>index == msgArr.findIndex(e=>e=='must')-1)
-    const min = msgArr.find((word,index)=>index == msgArr.findIndex(e=>e=='least')+1)
-    Swal.fire({ 
-      icon:"error",
-      title: "Text very short",
-      text:`The ${field} field required ${min} characters`
-    });
-  }else{
-    throw e
-  }
-}
+  let isValid = false
+    try{
+    const validate = await LoginSchema.validate(credentials.value)
+    isValid = typeof validate != 'boolean'
+    }catch(e){
+      if(e.message.search('email must be a valid email') != -1){
+        
+        Swal.fire({ 
+          icon:"error",
+          title: "Invalid email",
+          text:"The email is incorrect, please fix it"
+        });
+      }else if(e.message.search('required field') != -1){
+        Swal.fire({ 
+          icon:"error",
+          title: "Field empty",
+          text:"Fill all fields to continue"
+        });
+      }else if(e.message.search('must be at least') != -1){
+        const msgArr = e.message.split(" ")
+        const field = msgArr.find((word,index)=>index == msgArr.findIndex(e=>e=='must')-1)
+        const min = msgArr.find((word,index)=>index == msgArr.findIndex(e=>e=='least')+1)
+        Swal.fire({ 
+          icon:"error",
+          title: "Text very short",
+          text:`The ${field} field required ${min} characters`
+        });
+      }else{
+        throw e
+      }
+    }
   return isValid
 }
  
 async function sendInformation( ){
     const isValid = await validate()
     if(!isValid) return
-try{
-    const info = await AuthService.login(credentials.value)
+    try{
+        const info = await UserStore.login(credentials.value) 
+        await Swal.fire({
+          icon:"success",
+          title: "Email checked",
+          text:JSON.stringify(info)
+        }) 
     }catch(e){
-      if(e.message.search('Email not confirmed') != -1)
-      {
-        Swal.fire({
-          icon:"error",
-          title: "Email unconfirmed",
-          text:"Check your inbox and confirm email to login"
-        })
+      if(e.message.search('Email not confirmed') != -1){
+          Swal.fire({
+            icon:"error",
+            title: "Email unconfirmed",
+            text:"Check your inbox and confirm email to login"
+          })
       }
     } 
-    Swal.fire({
-          icon:"success",
-          title: "Email checked"
-        })
+    
+   
 }
 
 
