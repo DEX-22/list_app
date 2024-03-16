@@ -1,0 +1,3 @@
+<template>
+    aqui participants
+</template>

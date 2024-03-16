@@ -1,41 +1,48 @@
 <template>
     <NuxtLayout>
-        <template #header>
-            <div>
-                <div class="flex">
-                    <h2 class="px-2 text-2xl w-3/4">
-                        SALAS
-                    </h2>
-                    <div class="w-1/4 flex justify-center">
-                        <button @click="goToNewRoom" class="btn btn-outline ">
-                            +
-                        </button>
-                    </div>
-                </div>
-                <p class="text-end px-2 h-4 ">
-                    11/02/2024 6:00pm
-                </p>
-            </div>
-
+        <template #title>  
+            Rooms 
+        </template>
+        <template #action>
+            <button @click="goToNewRoom">
+                Click
+            </button>
         </template>
         <div class="py-4 flex justify-center">
             <div class="flex flex-col">
-                <RoomItem @click="goToItem" />
-                <RoomItem @click="goToItem" />
-                <RoomItem @click="goToItem" />
-                <RoomItem @click="goToItem" />
+                <RoomItem v-for="(room,i) in listOfRooms" v-bind="room" :key="i" @click="goToItem(room.name)" /> 
             </div>
         </div>
     </NuxtLayout>
 </template>
 <script lang="ts" setup>
-
+import type { IRoom } from '../interfaces/room';
+import rooms from '../services/rooms';
+ 
 const router = useRouter()
-function goToItem() {
-    router.push('/home')
+const listOfRooms : Ref<Array<IRoom>> = ref([])
+
+onMounted(async ()=>{
+    await listRooms()
+})
+
+function goToItem(page: string) {
+    router.push(`/rooms/${page}`)
 }
 function goToNewRoom(){
     router.push('/rooms/create')
+}
+
+async function listRooms(){
+    try {
+        
+    const listRooms = await rooms.getRooms()
+    listRooms.forEach((element:IRoom) => {
+        listOfRooms.value.push(element)
+    });
+    } catch (error) {
+        console.log(error.message??error)
+    }
 }
 
 </script>
